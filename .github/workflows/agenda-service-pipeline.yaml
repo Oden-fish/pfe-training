@@ -30,4 +30,4 @@ jobs:
       - if: steps.changes.outputs.src == 'true'
         env: 
           KO_DOCKER_REPO: docker.io/abe100483
-        run: cd conference-application/agenda-service && ko build -t v0.9.9-gh
+        run: cd conference-application/agenda-service && ko build -B -t v0.9.9-gh

@@ -81,7 +81,7 @@ func testService(ctx context.Context, client *dagger.Client, dir string) error {
 
 	// Start Kafka for all services
 	kafkaSvc := client.Container().
-		From("docker.io/bitnami/kafka:3.4.1-debian-11-r0").
+		From("docker.io/bitnamilegacy/kafka:3.4.1-debian-11-r0").
 		WithEnvVariable("ALLOW_PLAINTEXT_LISTENER", "yes").
 		WithEnvVariable("KAFKA_CFG_LISTENERS", "PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094").
 		WithEnvVariable("KAFKA_CFG_ADVERTISED_LISTENERS", "PLAINTEXT://kafka:9092,EXTERNAL://kafka:9094").
@@ -89,7 +89,7 @@ func testService(ctx context.Context, client *dagger.Client, dir string) error {
 		WithExposedPort(9092)
 
 	client.Container().
-		From("docker.io/bitnami/kafka:3.4.1-debian-11-r0").
+		From("docker.io/bitnamilegacy/kafka:3.4.1-debian-11-r0").
 		WithEntrypoint([]string{"/bin/sh", "-c"}).
 		WithExec([]string{
 			"kafka-topics.sh --bootstrap-server kafka:9092 --list",
@@ -110,7 +110,7 @@ func testService(ctx context.Context, client *dagger.Client, dir string) error {
 
 	if dir == "agenda-service" {
 		redisSvc := client.Container().
-			From("docker.io/bitnami/redis:7.0.11-debian-11-r12").
+			From("docker.io/bitnamilegacy/redis:7.0.11-debian-11-r12").
 			WithEnvVariable("ALLOW_EMPTY_PASSWORD", "yes").
 			WithExposedPort(6379)
 		ctr = ctr.WithServiceBinding("redis", redisSvc)
@@ -119,12 +119,12 @@ func testService(ctx context.Context, client *dagger.Client, dir string) error {
 
 	if dir == "c4p-service" {
 		redisSvc := client.Container().
-			From("docker.io/bitnami/redis:7.0.11-debian-11-r12").
+			From("docker.io/bitnamilegacy/redis:7.0.11-debian-11-r12").
 			WithEnvVariable("ALLOW_EMPTY_PASSWORD", "yes").
 			WithExposedPort(6379)
 
 		postgreSvc := client.Container().
-			From("bitnami/postgresql:15.3.0-debian-11-r17").
+			From("bitnamilegacy/postgresql:15.3.0-debian-11-r17").
 			WithEnvVariable("POSTGRES_USER", "postgres").
 			WithEnvVariable("POSTGRES_PASSWORD", "postgres").
 			WithFile("/docker-entrypoint-initdb.d/init.sql", srcDir.File("init.sql")).
