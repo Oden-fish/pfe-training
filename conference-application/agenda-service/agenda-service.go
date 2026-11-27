@@ -254,8 +254,14 @@ func (s server) ArchiveAgendaItemById(w http.ResponseWriter, r *http.Request, id
 	agendaItemId := chi.URLParam(r, "id")
 	log.Printf("Fetching Agenda Item By Id: %s", agendaItemId)
 	agendaItemById, err := s.RedisClient.HGet(ctx, KEY, agendaItemId).Result()
+
+	if errors.Is(err, redis.Nil) {
+		errorHandler(w, http.StatusNotFound, "Agenda Item not found")
+		return
+	}
 	if err != nil {
-		panic(err)
+		errorHandler(w, http.StatusInternalServerError, "Internal Server Error")
+		return
 	}
 	var agendaItem AgendaItem
 	err = json.Unmarshal([]byte(agendaItemById), &agendaItem)
