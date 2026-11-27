@@ -1,0 +1,27 @@
+{
+  "version": 1.0,
+  "tests": {
+    "contractTests": [
+      { "openApiOperation": "*::/*", "statusSuccess": { "enabled": true } },
+      { "openApiOperation": "*::/*", "contentType": { "enabled": true } },
+      { "openApiOperation": "*::/*", "jsonBody": { "enabled": true } },
+      { "openApiOperation": "*::/*", "schemaValidation": { "enabled": true } }
+    ]
+  },
+  "assignVariables": [
+    {
+      "openApiOperationId": "createAgendaItem",
+      "collectionVariables": [
+        { "responseBodyProp": "id", "name": "agendaItemId" }
+      ]
+    }
+  ],
+  "overwrites": [
+    {
+      "openApiOperationIds": ["getAgendaItemById", "archiveAgendaItemById"],
+      "overwriteRequestPathVariables": [
+        { "key": "id", "value": "{{agendaItemId}}", "overwrite": true }
+      ]
+    }
+  ]
+}

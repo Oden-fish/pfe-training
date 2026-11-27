@@ -16,6 +16,17 @@ paths:
       operationId: createAgendaItem
       tags:
         - agenda-items
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgendaItem'
+            example:
+              title: "Platform Engineering on Kubernetes"
+              author: "Mauricio Salatino"
+              day: "Monday"
+              time: "9:00"
       responses:
         '201':
           description: CREATED
