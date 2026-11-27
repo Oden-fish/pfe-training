@@ -13,7 +13,7 @@ import (
 var (
 	// the container registry for the multi-platform image
 	CONTAINER_REGISTRY          = getEnv("CONTAINER_REGISTRY", "docker.io")
-	CONTAINER_REGISTRY_USER     = getEnv("CONTAINER_REGISTRY_USER", "salaboy")
+	CONTAINER_REGISTRY_USER     = getEnv("CONTAINER_REGISTRY_USER", "abe100483")
 	CONTAINER_REGISTRY_PASSWORD = getEnv("CONTAINER_REGISTRY_PASSWORD", "")
 )
 

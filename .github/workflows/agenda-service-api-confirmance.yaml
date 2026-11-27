@@ -17,8 +17,16 @@ jobs:
     - name: Install portman
       run: npm install -g @apideck/portman && portman -l conference-application/agenda-service/kodata/docs/openapi.yaml -o conference-application/agenda-service/api/postman/agenda-service.postman.json
     - name: Build the stack
-      run: docker compose -f conference-application/agenda-service/tests/docker-compose.yaml up -d --wait
+      run: |
+        docker compose -f conference-application/agenda-service/tests/docker-compose.yaml up -d
+        curl -sf --retry 30 --retry-delay 2 --retry-all-errors http://localhost:8080/service/info
     - name: Install newman
-      run: npm install -g newman && newman run conference-application/agenda-service/api/postman/agenda-service.postman.json --env-var "baseUrl=http://localhost:8080"   
+      run: npm install -g newman && newman run conference-application/agenda-service/api/postman/agenda-service.postman.json --env-var "baseUrl=http://localhost:8080"
+    - name: Dump container status and logs
+      if: failure()
+      run: |
+        docker compose -f conference-application/agenda-service/tests/docker-compose.yaml ps -a
+        docker compose -f conference-application/agenda-service/tests/docker-compose.yaml logs
     - name: Shutdown the stack
-      run: docker-compose -f conference-application/agenda-service/tests/docker-compose.yaml down 
+      if: always()
+      run: docker compose -f conference-application/agenda-service/tests/docker-compose.yaml down 
