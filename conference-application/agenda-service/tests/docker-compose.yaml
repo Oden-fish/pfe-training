@@ -49,7 +49,7 @@ services:
       redis:
         condition: service_healthy  
     container_name: agenda-service
-    image: abe100483/agenda-service 
+    image: abe100483/agenda-service:v1.0.0
     environment:
       KAFKA_URL: kafka:9092
       REDIS_HOST: redis
