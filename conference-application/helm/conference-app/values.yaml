@@ -14,6 +14,7 @@ install:
   ingress: true
 postgresql:
   image:
+    repository: bitnamilegacy/postgresql
     debug: true
   primary: 
     persistence:
@@ -27,11 +28,15 @@ postgresql:
       auth: 
         postgresPassword: postgres
 redis: 
+  image:
+    repository: bitnamilegacy/redis
   architecture: standalone
   master:
     persistence:
       size: "1Gi"
-kafka: 
+kafka:
+  image:
+    repository: bitnamilegacy/kafka
   persistence:
     size: "1Gi"
   provisioning:
